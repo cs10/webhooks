@@ -2,6 +2,7 @@ import sys, os, datetime
 
 name = "github_event_" + str(datetime.datetime.now())
 log = "../web_hook_log.txt"
+
 with open(name, "w+") as myfile:
     #os.chmod(name, 0744)
     myfile.write('\n ')
