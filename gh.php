@@ -25,7 +25,7 @@ $file = $dir . 'github.py';
 $command = '/usr/local/bin/python ' . $file . ' \'' . $HTTP_RAW_POST_DATA . '\' 2>&1';
 // echo $command;
 file_put_contents($log, '\n==================================================\n');
-file_put_contents($log, 'WEB HOOK EXEC @ ' . date() . '\n');
+file_put_contents($log, 'WEB HOOK EXEC @ ' . date("Y-m-d H:i:s") . '\n');
 // echo '<br />';
 $result = exec($command);
 file_put_contents($log, 'RESULT:  ' . $result);
