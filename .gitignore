@@ -1,2 +1,8 @@
 .DS_Store
 
+*.pyc
+__pycache__
+
+# log files for testing
+github_*
+python_log.txt

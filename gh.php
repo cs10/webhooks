@@ -18,17 +18,24 @@
 $dir = '/home/ff/cs10/github/';
 $log = $dir . 'php_log.txt';
 $file = $dir . 'github.py';
+$sep = '
+==================================================
+';
+$event = $_POST['X-Github-Event'];
 // $postdata = $HTTP_RAW_POST_DATA;
 // $var = putenv('var=TEST');
 // echo $var;
 // echo '<br />';
-$command = '/usr/local/bin/python ' . $file . ' \'' . $HTTP_RAW_POST_DATA . '\' 2>&1';
+$command = '/usr/local/bin/python ' . $file . ' \'' . $HTTP_RAW_POST_DATA . '\' \'' . $event . '\' 2>&1';
 // echo $command;
-file_put_contents($log, '\n==================================================\n');
-file_put_contents($log, 'WEB HOOK EXEC @ ' . date("Y-m-d H:i:s") . '\n');
+file_put_contents($log, $sep, FILE_APPEND);
+file_put_contents($log, 'WEB HOOK EXEC @ ' . date("Y-m-d H:i:s") . '
+', FILE_APPEND);
+file_put_contents($log, 'WEB HOOK EVENT - ' . $event . '
+', FILE_APPEND);
 // echo '<br />';
 $result = exec($command);
-file_put_contents($log, 'RESULT:  ' . $result);
-file_put_contents($log, '\n==================================================\n');
+file_put_contents($log, 'RESULT:  ' . $result, FILE_APPEND);
+file_put_contents($log, $sep, FILE_APPEND);
 // echo $result;
 ?>
