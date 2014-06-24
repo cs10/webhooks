@@ -1,6 +1,27 @@
 # A repo configuration for the build script.
+try:
+    import urllib.request as URL
+    import zipfile as zipfile
+except ImportError:
+    import urllib as URL
+    import Zipfile as zipfile
+
+import sys, os
+
+"""
+NOTE: The original goal was to use zip files to update repos, but
+for projects with submodules this is a bit problematic. While it saves
+or server space it can also lead to longer update times. Instead I'm
+going to use the git repos. Currently this means public fetching should
+be setup, or you can deal with SSH keys for the account this script is
+running from.
+"""
 
 class RepoConfig(object):
+    GIT = "git"
+    CLONE = "clone --recursive"
+    NO_SSL = 'GIT_SSL_NO_VERIFY=true'
+    PULL = 'pull'
     # Github URL
     ghURL = "https://github.com/"
     # Github ZIP
@@ -17,7 +38,10 @@ class RepoConfig(object):
         self.events  = { 'push' : func }
         # TODO track URL separately and make use of it...
         self.url     = RepoConfig.ghURL + account + "/" + name + "/"
+        self.dest    = name
         self.zipURL  = ''
+        # FIXME THIS IS TERRIBLE......
+        self.noSSL   = True
         # TODO: Advanced events:
         # (branch, event): function
         self.setZipURL()
@@ -29,11 +53,11 @@ class RepoConfig(object):
     def deployEvent(self, event):
         '''
         Execute the event function
-        Push is currently special cased until this class is a bit more
-        robust
+        Push is currently special cased until this class
+        is a bit more robust
         '''
         if event in self.events:
-            self.events[event]()
+            self.events[event](self)
 
     def setZipURL(self):
         self.zipURL = RepoConfig.ghURL + self.account + "/" + self.name + "/"
@@ -44,7 +68,30 @@ class RepoConfig(object):
 
     def setFunction(self, branch, event, func):
         pass
-        
+
+    def repoExists(self):
+        return os.path.exists(self.dest)
+
+    def cloneCommand(self):
+        command = ''
+        if self.noSSL:
+            command += RepoConfig.NO_SSL + ' '
+        command += RepoConfig.GIT + ' ' + RepoConfig.CLONE + ' ' + self.url
+        command += ' ' + self.dest
+        return command
+
+    def pullCommand(self):
+        command = ''
+        if self.noSSL:
+            command += RepoConfig.NO_SSL + ' '
+        return command + RepoConfig.GIT + ' ' + RepoConfig.PULL
+
+    def update(self):
+        if not self.repoExists():
+            os.system(self.cloneCommand())
+        else:
+            os.system(self.pullCommand())
+
     @classmethod
     def getRepo(cls, name):
         if name in cls.registry:
@@ -52,24 +99,41 @@ class RepoConfig(object):
 
 ###############################################################################
 # UTIL FUNCTIONS AND SETTINGS
+
 TMP = "/tmp/"
+
+def downloadfile(rc):
+    # urllib
+    # open request
+    # .read()
+    # .write() to new file named .zip()
+    pass
+
+def extractZip(rc):
+    # Zipfile.ZipFile.extractall()
+    pass
+
+def cleanup(rc):
+    pass
 
 ###############################################################################
 # DEPLOY FUNCTIONS
+# rc is a repo in the RepoConfig
 
-def labsBJC():
+def labsBJC(rc):
     pass
 
-def labsCS10():
+def labsCS10(rc):
     pass
 
-def snap():
+def snap(rc):
     pass
 
-def fa14():
-    pass
+def fa14(rc):
+    rc.update()
+    os.system('chmod -R 755 fa14')
 
-def resources():
+def resources(rc):
     pass
 
 ###############################################################################

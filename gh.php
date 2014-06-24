@@ -26,7 +26,7 @@ $event = $_POST['X-Github-Event'];
 // $var = putenv('var=TEST');
 // echo $var;
 // echo '<br />';
-$command = '/usr/local/bin/python ' . $file . ' \'' . $HTTP_RAW_POST_DATA . '\' \'' . $event . '\' 2>&1';
+$command = '/usr/sww/bin/python3 ' . $file . ' \'' . $HTTP_RAW_POST_DATA . '\' \'' . $event . '\' 2>&1';
 // echo $command;
 file_put_contents($log, $sep, FILE_APPEND);
 file_put_contents($log, 'WEB HOOK EXEC @ ' . date("Y-m-d H:i:s") . '
