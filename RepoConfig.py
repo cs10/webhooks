@@ -1,10 +1,10 @@
 # A repo configuration for the build script.
 try:
     import urllib.request as URL
-    import zipfile as zipfile
-except ImportError:
+    # import zipfile as zipfile
+except ImportError: # Python 2
     import urllib as URL
-    import Zipfile as zipfile
+    # import ZipFile as zipfile
 
 import sys, os
 
@@ -17,6 +17,7 @@ be setup, or you can deal with SSH keys for the account this script is
 running from.
 """
 
+# TODO: Switch to subprocess.call()
 class RepoConfig(object):
     GIT = "git"
     CLONE = "clone --recursive"
@@ -131,7 +132,9 @@ def snap(rc):
 
 def fa14(rc):
     rc.update()
-    os.system('chmod -R 755 fa14')
+    # FIXME -- I don't like this...
+    os.system('chmod -R 777 /home/ff/cs10/public_html/fa14')
+    os.system()
 
 def resources(rc):
     pass
