@@ -17,8 +17,7 @@ from RepoConfig import *
 # Store the POST data from GitHub
 params = ''
 # Logs location
-# This is relative to help with script portability. :)
-folder = "./"
+folder = '/home/ff/cs10/github'
 # Log files
 repo_file = folder + "github_log_"
 generic   = folder + "python_log.txt"
@@ -27,6 +26,11 @@ EVENT     = None
 DATA      = {}
 NAME      = None
 
+# Make sure we're in the right location
+os.chdir('/home/ff/cs10/public_html')
+# FIXME THIS IS TEMPORARY AND SHOULD BE DELETED SOON!!!
+# This needs to be run from the account the script ran on the first time
+os.system('rm -r /home/ff/cs10/public_html/fa14')
 ###############################################################################
 # Util Functions
 
@@ -73,14 +77,14 @@ NAME = getRepoName()
 if DATA == {} or NAME == None:
     msg = "CAN'T PARSE REPO NAME...\n"
     msg += "PARAMS:\t" + str(params) + '\n'
-    msg += "EVENT:\t" + EVENT + '\n'
+    msg += "EVENT:\t" + str(EVENT) + '\n'
     msg += "NAME:\t" + str(NAME) + '\n'
     writeFile(FILE, msg)
     sys.exit(1)
 
-FILE = repo_file + NAME + '.txt'
+FILE = repo_file + str(NAME) + '.txt'
 # Start
-msg = "EVENT:\t" + EVENT + '\n'
+msg = "EVENT:\t" + str(EVENT) + '\n'
 repo = RepoConfig.getRepo(NAME)
 try:
     repo.deploy()
