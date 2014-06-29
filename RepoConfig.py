@@ -134,7 +134,7 @@ def fa14(rc):
     rc.update()
     # FIXME -- I don't like this...
     os.system('chmod -R 777 /home/ff/cs10/public_html/fa14')
-    os.system()
+    os.system('chown -R cs10:cs10-staff /home/ff/cs10/public_html/fa14')
 
 def resources(rc):
     pass
@@ -144,5 +144,5 @@ def resources(rc):
 
 Repos = RepoConfig
 
-RepoConfig('fa14', 'cs10', fa14)
-RepoConfig('bjc-r', 'beautyjoy', labsCS10)
+RepoConfig('fa14', 'cs10', 'master', fa14)
+RepoConfig('bjc-r', 'beautyjoy', 'gh-pages', labsCS10)
