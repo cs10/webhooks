@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/sww/bin/python3
 
 # This fixes the directories for running labs on the CS10 website
 # This script is largely a terrible hack and shouldn't be used for long.
