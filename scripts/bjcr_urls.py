@@ -17,7 +17,10 @@ def findReplace(directory, find, replace, filePattern):
 
 labs="/home/ff/cs10/public_html/labs"
 michael="/Volumes/Michael/Users/Michael/Dropbox/Projects/bjc-r copy"
+# Only replace files in "" (or '') in html files.
+# TODO: Is this really necessary?
 findReplace(labs, "\"/bjc-r", "\"/~cs10/labs", "*.html")
+findReplace(labs, "\'/bjc-r", "\'/~cs10/labs", "*.html")
 findReplace(labs, "/bjc-r", "/~cs10/labs", "*.topic")
 findReplace(labs, "/bjc-r", "/~cs10/labs", "*.js")
 
